@@ -1,0 +1,31 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly test3, Version=1.0.*, Culture=ロケールに依存しない言語 (ロケールに依存しない国): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class test_class: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    System.String descriptor_type : Public
+    UInt16 descriptor_index : Public
+    System.String object_name : Public
+    UInt16 localized_description : Public
+    UInt64 mac_address : Public
+    UInt16 interface_flags : Public
+    UInt64 clock_identity : Public
+    Byte priority1 : Public
+    Byte clock_class : Public
+    UInt16 offset_scaled_log_variance : Public
+    Byte clock_accuracy : Public
+    Byte priority2 : Public
+    Byte domain_number : Public
+    SByte log_sync_interval : Public
+    SByte log_announce_interval : Public
+    SByte log_pdelay_interval : Public
+    UInt16 port_number : Public
