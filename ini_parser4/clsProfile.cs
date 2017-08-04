@@ -553,7 +553,7 @@ namespace ini_parser4
             {
                 return;
             }
-            File.Create(FilePath);
+            File.Create(FilePath).Close();
         }
     }
 }
