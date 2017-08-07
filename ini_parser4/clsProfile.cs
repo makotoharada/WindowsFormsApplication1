@@ -38,7 +38,6 @@ namespace ini_parser4
     public class Profile
     {
         private Hashtable htProfile = new Hashtable(); // Profile保管用
-        private string[] strArray;      // Profile行単位格納用
         private string strBuffer;      // File読込用Buffer
         private string ProfileName = null;
         private FileIO FileIO = new FileIO();
@@ -61,6 +60,8 @@ namespace ini_parser4
             string strSectionName;     // SECTION名格納用
             string strKeyName;      // KEY名格納用
             string strKeyValue;      // 値格納用
+            string[] strArray;      // Profile行単位格納用
+
             Hashtable htSection = new Hashtable(); // SECTION用Hashtable
             /******************************************************************
                 * 対象ファイルが存在しない場合は新規作成
@@ -202,80 +203,18 @@ namespace ini_parser4
                             , string Key
                             , string Value)
         {
-            StringBuilder objBuilder = new StringBuilder();
-            int Count = 0;
-            int Overwrite = (int)OVERWRITE.NEW;
-
-
             // SECTIONの有無を確認
             if (htProfile.ContainsKey(Section))
             {
                 Hashtable htSection = (Hashtable)htProfile[Section];
-                if (htSection.ContainsKey(Key))
-                {
-                    Overwrite = (int)OVERWRITE.SEC_KEY;
-                }
-                else
-                {
-                    Overwrite = (int)OVERWRITE.SEC;
-                }
                 htSection[Key] = Value;
             }
             else
             {
-                Overwrite = (int)OVERWRITE.NEW;
                 htProfile.Add(Section, new Hashtable());
                 Hashtable htSection = (Hashtable)htProfile[Section];
                 htSection.Add(Key, Value);
             }
-
-            switch (Overwrite)
-            {
-                // 指定SECTIONなし／指定KEYなし
-                case (int)OVERWRITE.NEW:
-                    strBuffer = strBuffer + "[" + Section + "]\r\n";
-                    strBuffer = strBuffer + Key + "=" + Value + "\r\n";
-                    strArray = strBuffer.Split('\n');
-                    break;
-                // 指定SECTIONあり／指定KEYあり
-                case (int)OVERWRITE.SEC_KEY:
-                    int iFlag = 0;
-                    objBuilder.Append(strBuffer);
-                    foreach (string LineValue in strArray)
-                    {
-                        if (LineValue.IndexOf("[" + Section + "]") != -1)
-                        {
-                            iFlag = 1;
-                        }
-                        if (iFlag == 1 && LineValue.IndexOf(Key) != -1)
-                        {
-                            objBuilder.Replace(LineValue.Trim()
-                                , Key + "=" + Value
-                                , Count
-                                , (int)LineValue.Length + 1);
-                            strBuffer = objBuilder.ToString();
-                            break;
-                        }
-                        Count = Count + LineValue.Length + 1;
-                    }
-                    break;
-                // 指定SECTIONあり／指定KEYなし
-                case (int)OVERWRITE.SEC:
-                    objBuilder.Append(strBuffer);
-                    foreach (string LineValue in strArray)
-                    {
-                        Count = Count + LineValue.Length + 1;
-                        if (LineValue.IndexOf("[" + Section + "]") != -1)
-                        {
-                            objBuilder.Insert(Count
-                                            , Key + "=" + Value + "\r\n");
-                            strBuffer = objBuilder.ToString();
-                            break;
-                        }
-                    }
-                    break;
-            }
-            strArray = strBuffer.Split('\n');
         }
 
         // Convert htProfile key and values to strings
