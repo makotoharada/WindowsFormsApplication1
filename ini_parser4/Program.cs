@@ -28,8 +28,8 @@ namespace ini_parser4
         {
             var obj = new Profile();
             obj.Open(@"C:\Users\Makoto Harada\Downloads\sample_write.ini");
-            obj.SetProfileValue("TEST", "parent1", "makoto");
-            obj.SetProfileValue("TEST", "paraent2", "eri");
+            obj.SetProfileValue("TEST", "parent", "makoto");
+            obj.SetProfileValue("TEST", "parent2", "eri");
             obj.SetProfileValue("KIDS", "son", "yamato");
             obj.SetProfileValue("KIDS", "son2", "shota");
             obj.WriteProfile();
@@ -39,19 +39,25 @@ namespace ini_parser4
         {
             var obj = new Profile();
             obj.Open(@"C:\Users\Makoto Harada\Downloads\sample_write2.ini");
-            obj.SetProfileValue(null, "parent1", "makoto");
-            obj.SetProfileValue(null, "paraent2", "eri");
-            obj.SetProfileValue(null, "son", "yamato");
-            obj.SetProfileValue(null, "son2", "shota");
+            obj.SetProfileValue(Profile.NOSECTION, "parent", "makoto");
+            obj.SetProfileValue(Profile.NOSECTION, "parent2", "eri");
+            obj.SetProfileValue(Profile.NOSECTION, "son", "yamato");
+            obj.SetProfileValue(Profile.NOSECTION, "son2", "shota");
             obj.WriteProfile();
+        }
+
+        static void ini_read_test_non_section_lf()
+        {
+            var obj = new Profile();
+            obj.Open(@"C:\Users\Makoto Harada\Downloads\neoECU.cfg");
         }
 
         static void Main(string[] args)
         {
-            //ini_read_test();
-            //ini_write_test();
+            ini_read_test();
+            ini_write_test();
             ini_write_test_non_section();
-
+            ini_read_test_non_section_lf();
         }
     }
 }

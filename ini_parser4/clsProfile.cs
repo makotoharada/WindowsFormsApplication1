@@ -41,6 +41,8 @@ namespace ini_parser4
         private string strBuffer;      // File読込用Buffer
         private string ProfileName = null;
         private FileIO FileIO = new FileIO();
+        public const string NOSECTION = "NoSection";
+
         ///////////////////////////////////////////////////////////////////////
         /// <summary>
         /// ProfStreemのConstructor
@@ -63,6 +65,14 @@ namespace ini_parser4
             string[] strArray;      // Profile行単位格納用
 
             Hashtable htSection = new Hashtable(); // SECTION用Hashtable
+
+            /******************************************************************
+                * Section に属さないkeyとvalueは"NoSection" Section に格納
+                *****************************************************************/
+            strSectionName = NOSECTION;
+            htProfile.Add(strSectionName, new Hashtable());
+            htSection = (Hashtable)htProfile[strSectionName];
+
             /******************************************************************
                 * 対象ファイルが存在しない場合は新規作成
                 *****************************************************************/
@@ -139,6 +149,8 @@ namespace ini_parser4
                     }
                 }
             }
+            dump_htProfile();
+
             return 0;
         }
         ///////////////////////////////////////////////////////////////////////
@@ -217,20 +229,51 @@ namespace ini_parser4
             }
         }
 
-        // Convert htProfile key and values to strings
-        string conv_hashtable_to_string(Hashtable htProfile)
+        void dump_htProfile()
         {
+            Debug.WriteLine("--- dump_htProfile ----");
 
-            string Buffer = "";
-            // Section
             foreach (string section in htProfile.Keys)
             {
-                Buffer += "[" + section + "]\r\n";
+
+                Debug.WriteLine(section);
 
                 Hashtable htSection = (Hashtable)htProfile[section];
                 // Key and value
                 foreach (string key in htSection.Keys)
-                    Buffer += key + "=" + htSection[key] + "\r\n";
+                    Debug.WriteLine(key + ": " + htSection[key]);
+            }
+
+        }
+
+        void conv_section_to_string(string section, ref string Buffer)
+        {
+            Hashtable htSection = (Hashtable)htProfile[section];
+
+            // Key and value
+            foreach (string key in htSection.Keys)
+                Buffer += key + "=" + htSection[key] + "\r\n";
+        }
+
+        // Convert htProfile key and values to strings
+        string conv_hashtable_to_string(Hashtable htProfile)
+        {
+            string Buffer = "";
+
+            foreach (string section in htProfile.Keys)
+            {
+                if (section == NOSECTION) {
+                    Hashtable htSection = (Hashtable)htProfile[section];
+                    if (htSection.Count > 0)
+                    {
+                        // setion header はなし
+                        conv_section_to_string(NOSECTION, ref Buffer);
+                    }
+                    continue;
+                }
+
+                Buffer += "[" + section + "]\r\n";
+                conv_section_to_string(section, ref Buffer);
             }
 
             return Buffer;
