@@ -277,6 +277,26 @@ namespace ini_parser4
             }
             strArray = strBuffer.Split('\n');
         }
+
+        // Convert htProfile key and values to strings
+        string conv_hashtable_to_string(Hashtable htProfile)
+        {
+
+            string Buffer = "";
+            // Section
+            foreach (string section in htProfile.Keys)
+            {
+                Buffer += "[" + section + "]\r\n";
+
+                Hashtable htSection = (Hashtable)htProfile[section];
+                // Key and value
+                foreach (string key in htSection.Keys)
+                    Buffer += key + "=" + htSection[key] + "\r\n";
+            }
+
+            return Buffer;
+        }
+
         ///////////////////////////////////////////////////////////////////////
         /// <summary>
         /// Profileの書き込み
@@ -291,8 +311,7 @@ namespace ini_parser4
         {
             try
             {
-                string Buffer;
-                Buffer = string.Join("\n", strArray);
+                string Buffer = conv_hashtable_to_string(htProfile);
                 FileIO.FileWrite(ProfileName, Buffer, false);
                 return 0;
             }
