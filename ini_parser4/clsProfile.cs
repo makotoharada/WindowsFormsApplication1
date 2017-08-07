@@ -30,7 +30,6 @@ namespace ini_parser4
     /// ProfileのFile pathはClassのInstance化時に引数として行います。<br/>
     /// Instance化時にProfileの内容はConstructor内にてHashtableとして格納され
     /// 以下のMethodにて編集を行います。<br/>
-    /// ・GetProfileValue  …指定したProfileKeyを取得します。<br/>
     /// ・GetProfileValue  …指定したProfileKeyを変更します。<br/>
     /// ・WriteProfile    …ProfileをDISKに保存します。<br/>
     /// ・WriteXmlStrem    …ProfileをXMLに変換しDISKに保存します。<br/>
@@ -191,13 +190,21 @@ namespace ini_parser4
         /// 書き込みます。
         /// </remarks>
         ///////////////////////////////////////////////////////////////////////
+
+        enum OVERWRITE
+        {
+            NEW,
+            SEC,
+            SEC_KEY,
+        };
+
         public void SetProfileValue(string Section
                             , string Key
                             , string Value)
         {
             StringBuilder objBuilder = new StringBuilder();
             int Count = 0;
-            int Overwrite = 0;
+            int Overwrite = (int)OVERWRITE.NEW;
 
 
             // SECTIONの有無を確認
@@ -206,31 +213,32 @@ namespace ini_parser4
                 Hashtable htSection = (Hashtable)htProfile[Section];
                 if (htSection.ContainsKey(Key))
                 {
-                    Overwrite = 1;
+                    Overwrite = (int)OVERWRITE.SEC_KEY;
                 }
                 else
                 {
-                    Overwrite = 2;
+                    Overwrite = (int)OVERWRITE.SEC;
                 }
                 htSection[Key] = Value;
             }
             else
             {
-                Overwrite = 0;
+                Overwrite = (int)OVERWRITE.NEW;
                 htProfile.Add(Section, new Hashtable());
                 Hashtable htSection = (Hashtable)htProfile[Section];
                 htSection.Add(Key, Value);
             }
+
             switch (Overwrite)
             {
                 // 指定SECTIONなし／指定KEYなし
-                case 0:
+                case (int)OVERWRITE.NEW:
                     strBuffer = strBuffer + "[" + Section + "]\r\n";
                     strBuffer = strBuffer + Key + "=" + Value + "\r\n";
                     strArray = strBuffer.Split('\n');
                     break;
                 // 指定SECTIONあり／指定KEYあり
-                case 1:
+                case (int)OVERWRITE.SEC_KEY:
                     int iFlag = 0;
                     objBuilder.Append(strBuffer);
                     foreach (string LineValue in strArray)
@@ -252,7 +260,7 @@ namespace ini_parser4
                     }
                     break;
                 // 指定SECTIONあり／指定KEYなし
-                case 2:
+                case (int)OVERWRITE.SEC:
                     objBuilder.Append(strBuffer);
                     foreach (string LineValue in strArray)
                     {
