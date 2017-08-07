@@ -1,0 +1,6 @@
+C:\Users\Makoto Harada\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ini_parser4\bin\Debug\ini_parser4.exe.config
+C:\Users\Makoto Harada\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ini_parser4\bin\Debug\ini_parser4.exe
+C:\Users\Makoto Harada\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ini_parser4\bin\Debug\ini_parser4.pdb
+C:\Users\Makoto Harada\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ini_parser4\obj\Debug\ini_parser4.csprojResolveAssemblyReference.cache
+C:\Users\Makoto Harada\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ini_parser4\obj\Debug\ini_parser4.exe
+C:\Users\Makoto Harada\Documents\Visual Studio 2015\Projects\WindowsFormsApplication1\ini_parser4\obj\Debug\ini_parser4.pdb

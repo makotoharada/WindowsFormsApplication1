@@ -21,6 +21,7 @@ namespace ini_parser4
             Debug.WriteLine(Key2);
             Debug.WriteLine(Key3);
             Debug.WriteLine(Key4);
+            obj.DumpProfile();
             //Console.WriteLine(Key1);
             //Console.ReadLine();
         }
@@ -33,6 +34,7 @@ namespace ini_parser4
             obj.SetProfileValue("KIDS", "son", "yamato");
             obj.SetProfileValue("KIDS", "son2", "shota");
             obj.WriteProfile();
+            obj.DumpProfile();
         }
 
         static void ini_write_test_non_section()
@@ -44,12 +46,14 @@ namespace ini_parser4
             obj.SetProfileValue(Profile.NOSECTION, "son", "yamato");
             obj.SetProfileValue(Profile.NOSECTION, "son2", "shota");
             obj.WriteProfile();
+            obj.DumpProfile();
         }
 
         static void ini_read_test_non_section_lf()
         {
             var obj = new Profile();
             obj.Open(@"C:\Users\Makoto Harada\Downloads\neoECU.cfg");
+            obj.DumpProfile();
         }
 
         static void Main(string[] args)

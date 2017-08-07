@@ -149,7 +149,6 @@ namespace ini_parser4
                     }
                 }
             }
-            dump_htProfile();
 
             return 0;
         }
@@ -229,9 +228,9 @@ namespace ini_parser4
             }
         }
 
-        void dump_htProfile()
+        public void DumpProfile()
         {
-            Debug.WriteLine("--- dump_htProfile ----");
+            Debug.WriteLine("--- DumpProfile ----");
 
             foreach (string section in htProfile.Keys)
             {
